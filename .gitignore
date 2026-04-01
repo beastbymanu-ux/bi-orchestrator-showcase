@@ -1,7 +1,54 @@
+# ── Secrets & credentials (NEVER commit these) ──────────────
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+auth-profiles.json
+*_token*
+*_secret*
+*credentials*
+
+# ── Meta / Facebook SDK tokens ───────────────────────────────
+meta_token*
+fb_token*
+facebook_token*
+access_token*
+page_token*
+
+# ── Python ───────────────────────────────────────────────────
 __pycache__/
 *.pyc
 *.pyo
-.DS_Store
-*.log
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# ── Celery ───────────────────────────────────────────────────
 celerybeat-schedule
+celerybeat.pid
+
+# ── Databases & local storage ────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── OS ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDE ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
