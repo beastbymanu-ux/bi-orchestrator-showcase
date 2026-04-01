@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+  redis:
+    image: redis:7-alpine
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+
+  celery-scraper:
+    build: .
+    command: celery -A orchestrator worker -Q scraping --concurrency=4 --loglevel=info
+    env_file: .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+
+  celery-analyst:
+    build: .
+    command: celery -A orchestrator worker -Q analysis --concurrency=2 --loglevel=info
+    env_file: .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+
+  celery-reporter:
+    build: .
+    command: celery -A orchestrator worker -Q reporting --concurrency=2 --loglevel=info
+    env_file: .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+
+  celery-beat:
+    build: .
+    command: celery -A orchestrator beat --loglevel=info
+    env_file: .env
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
